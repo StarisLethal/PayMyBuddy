@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/admin").hasRole("ADMIN");
-            auth.requestMatchers("/user").hasRole("USER");
+            auth.requestMatchers("/**").hasRole("USER");
             auth.anyRequest().authenticated();
         }).formLogin(Customizer.withDefaults()).build();
     }
