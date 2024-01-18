@@ -2,7 +2,8 @@ package com.dnm.paymybuddy.webapp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
@@ -12,6 +13,9 @@ public class Account {
     @Id
     private Integer accountId;
     private Float finances;
+    @OneToOne
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    private Person person;
 
     public Account() {
 

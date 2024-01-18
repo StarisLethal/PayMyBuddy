@@ -1,10 +1,10 @@
 package com.dnm.paymybuddy.webapp.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -12,11 +12,16 @@ public class Person {
 
     @Id
     private String email;
-    @Column(name ="firstName")
     private String firstName;
-    @Column(name ="lastName")
     private String lastName;
     private String password;
+    @ManyToMany
+    @JoinTable(
+            name = "person_friends",
+            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "email"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "email")
+    )
+    private List<Person> listOfFriend;
     private String role;
     public Person() {
 
