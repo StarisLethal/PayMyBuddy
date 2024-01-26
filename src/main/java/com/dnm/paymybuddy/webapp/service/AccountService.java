@@ -17,7 +17,7 @@ public class AccountService {
 
     public Optional<Account> get(Integer accountId){return accountRepository.findById(accountId);}
 
-    public float getFinanceById(Integer accountId){return accountRepository.findFinanceById(accountId);}
+    public Float getFinanceById(Integer accountId){return accountRepository.findFinanceById(accountId);}
 
     public Account getAccountId(String mail){return accountRepository.getAccountId(mail);}
 

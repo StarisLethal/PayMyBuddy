@@ -20,10 +20,10 @@ public class TransactionService {
     public Iterable<Transaction> listById(Account account){return transactionRepository.findSourceById(account);}
 
     @Transactional
-    public void payment(String accountSource, String accountRecipient, float amount, String description){
+    public void payment(String accountSourceMail, String accountRecipientMail, Float amount, String description){
 
-        Account sourceAccount = accountService.getAccountByMail(accountSource)/*.orElseThrow(() -> new IllegalArgumentException("Compte débiteur non trouvé"))*/;
-        Account recipientAccount = accountService.getAccountByMail(accountRecipient)/*.orElseThrow(() -> new IllegalArgumentException("Compte crediteur non trouvé"))*/;
+        Account sourceAccount = accountService.getAccountByMail(accountSourceMail)/*.orElseThrow(() -> new IllegalArgumentException("Compte débiteur non trouvé"))*/;
+        Account recipientAccount = accountService.getAccountByMail(accountRecipientMail)/*.orElseThrow(() -> new IllegalArgumentException("Compte crediteur non trouvé"))*/;
 
         Integer accountSourceId = sourceAccount.getAccountId();
         Integer accountRecipientId = recipientAccount.getAccountId();
@@ -33,7 +33,7 @@ public class TransactionService {
         }
 
 
-        if(sourceAccount.getFinances()<amount){
+        if(sourceAccount.getFinances()<(amount+(amount*0.05))){
             throw new IllegalArgumentException("Vous ne disposez pas de suffisament de fond");
         }
 

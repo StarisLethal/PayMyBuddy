@@ -32,16 +32,16 @@
         xhr.send();
     }
 </script>
-<h4>Send Money</h4>
+<h4>Send </h4>
 
 <div class="centerit">
 
-    <form action="/test-request" method="post">
+    <form method="post" th:action="@{/payment}">
 
-        <input type="hidden" name="accountSourceId" th:value="${person.getEmail()}"/>
+        <input type="hidden" name="accountSourceMail" th:value="${person.getEmail()}"/>
 
-        <label for="accountRecipient">Select A Connection :</label>
-        <select name="accountRecipient" id="accountRecipient" required>
+        <label for="accountRecipientMail">Select A Connection :</label>
+        <select name="accountRecipientMail" id="accountRecipientMail" required>
             <option th:each="friend : ${person.listOfFriend}" th:value="${friend.email}"
                     th:text="${friend.firstName + ' ' + friend.lastName}"></option>
         </select>

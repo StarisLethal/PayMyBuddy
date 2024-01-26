@@ -40,8 +40,9 @@ public class PersonController {
         return "login";
     }
 
-    @PostMapping("/test-request")
+    @PostMapping("/testrequest")
     public ResponseEntity<String> testPostRequest() {
+        System.out.println("TERST///////////§§§§§§");
         return ResponseEntity.ok("POST request successful");
     }
 
@@ -81,7 +82,7 @@ public class PersonController {
             @RequestParam("friendMail") String friendMail){
         try {
             personService.addFriend(personMail, friendMail);
-            return "transfer";
+            return "contact";
         } catch (Exception e) {
             String errorMessage = e.getMessage();
             System.out.println(errorMessage);

@@ -41,13 +41,13 @@ public class TransactionController {
 
     @PostMapping("/payment")
     public String processPayment(Model model,
-                                 @RequestParam("accountSourceId") String accountSourceId,
-                                 @RequestParam("accountRecipientId") String accountRecipientId,
-                                 @RequestParam("amount") float amount,
+                                 @RequestParam("accountSourceMail") String accountSourceMail,
+                                 @RequestParam("accountRecipientMail") String accountRecipientMail,
+                                 @RequestParam("amount") Float amount,
                                  @RequestParam("description") String description) {
 
         try {
-            transactionService.payment(accountSourceId, accountRecipientId, amount, description);
+            transactionService.payment(accountSourceMail, accountRecipientMail, amount, description);
             return "transfer";
         } catch (Exception e) {
             String errorMessage = e.getMessage();
