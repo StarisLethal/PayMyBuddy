@@ -19,4 +19,10 @@ public class AccountService {
 
     public float getFinanceById(Integer accountId){return accountRepository.findFinanceById(accountId);}
 
+    public Account getAccountId(String mail){return accountRepository.getAccountId(mail);}
+
+    public Account getAccountByMail(String mail){return accountRepository.getAccountIdByMail(mail);}
+
+    public Account save(Account account){return accountRepository.save(account);}
+
 }

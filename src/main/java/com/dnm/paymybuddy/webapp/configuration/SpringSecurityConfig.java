@@ -8,11 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -24,18 +20,22 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/admin").hasRole("ADMIN");
-            auth.requestMatchers("/**").hasRole("USER");
-            auth.anyRequest().authenticated();
-        }).formLogin(Customizer.withDefaults()).build();
-    }
-
-     @Bean
-    public UserDetailsService user(){
-        UserDetails user = User.builder().username("dtc").password(passwordEncoder().encode("123")).roles("USER").build();
-        UserDetails admin = User.builder().username("gnam").password(passwordEncoder().encode("1234")).roles("USER", "ADMIN").build();
-        return new InMemoryUserDetailsManager(user, admin);
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/style.css").permitAll() //
+                        .requestMatchers("/**").hasRole("USER")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .failureUrl("/loginerror")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                )
+                .rememberMe(Customizer.withDefaults());
+        return http.build();
     }
 
     @Bean

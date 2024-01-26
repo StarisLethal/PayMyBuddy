@@ -2,7 +2,6 @@ package com.dnm.paymybuddy.webapp.service;
 
 import com.dnm.paymybuddy.webapp.model.Account;
 import com.dnm.paymybuddy.webapp.model.Transaction;
-import com.dnm.paymybuddy.webapp.repositories.AccountRepository;
 import com.dnm.paymybuddy.webapp.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
@@ -14,37 +13,42 @@ import org.springframework.stereotype.Service;
 public class TransactionService {
 
     @Autowired
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
     @Autowired
     private final TransactionRepository transactionRepository;
 
-    public Iterable<Transaction> listById(String accountId){return transactionRepository.findAllById(accountId);}
+    public Iterable<Transaction> listById(Account account){return transactionRepository.findSourceById(account);}
 
     @Transactional
-    public void payment(Integer accountSourceId, Integer accountRecipientId, float amount){
+    public void payment(String accountSource, String accountRecipient, float amount, String description){
+
+        Account sourceAccount = accountService.getAccountByMail(accountSource)/*.orElseThrow(() -> new IllegalArgumentException("Compte débiteur non trouvé"))*/;
+        Account recipientAccount = accountService.getAccountByMail(accountRecipient)/*.orElseThrow(() -> new IllegalArgumentException("Compte crediteur non trouvé"))*/;
+
+        Integer accountSourceId = sourceAccount.getAccountId();
+        Integer accountRecipientId = recipientAccount.getAccountId();
 
         if(accountSourceId.equals(accountRecipientId)){
             throw new IllegalArgumentException("Vous ne pouvez pas vous envoyer de l'argent");
         }
 
-        Account sourceAccount = accountRepository.findById(accountSourceId).orElseThrow(() -> new IllegalArgumentException("Compte débiteur non trouvé"));
-        Account recipientAccount = accountRepository.findById(accountRecipientId).orElseThrow(() -> new IllegalArgumentException("Compte crediteur non trouvé"));
 
         if(sourceAccount.getFinances()<amount){
             throw new IllegalArgumentException("Vous ne disposez pas de suffisament de fond");
         }
 
         sourceAccount.setFinances(sourceAccount.getFinances() - amount);
-        accountRepository.save(sourceAccount);
+        accountService.save(sourceAccount);
 
         recipientAccount.setFinances(recipientAccount.getFinances() + amount);
-        accountRepository.save(recipientAccount);
+        accountService.save(recipientAccount);
 
         Transaction transaction = new Transaction();
 
-        transaction.setAccountSourceId(accountSourceId);
-        transaction.setAccountRecipientId(accountRecipientId);
+        transaction.setAccountSource(sourceAccount);
+        transaction.setAccountRecipient(recipientAccount);
         transaction.setAmount(amount);
+        transaction.setDescription(description);
         transactionRepository.save(transaction);
     }
 

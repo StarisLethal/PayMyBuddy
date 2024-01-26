@@ -1,0 +1,199 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+.cadre {
+    display: inline-block;
+    border-width: thin;
+    border-color: rebeccapurple;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 3% 5%;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.logo {
+    display: inline-block;
+    background: rebeccapurple linear-gradient(rebeccapurple, #875692);
+    border-radius: 5px;
+    font-size: large;
+    color: #fff0f5 ;
+    padding: 5px 10px;
+    margin-bottom: 25%;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    overflow: hidden;
+    margin-bottom: 5%;
+}
+
+.navbar a {
+    background-color: #663399;
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+.active {
+    background-color: #333 !important;
+}
+
+.button {
+    background-color: rebeccapurple;
+    color: #f4f4f4;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: #875692;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer a {
+    color: #4CAF50;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.footer a:hover {
+    background-color: #ddd;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login-email {
+    position: relative;
+    margin-bottom: 15%;
+}
+
+.login-email::before {
+    content: '📧';
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.login-password {
+    position: relative;
+    margin-bottom: 5%;
+}
+
+.login-password::before {
+    content: '🔒';
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+input[type="text"], input[type="password"], input[type="checkbox"] {
+    padding-left: 25px;
+    font-size: medium;
+    outline: none;
+    border-color: rebeccapurple;
+    border-width: thin;
+    background-color: #f4f4f4;
+    -webkit-box-shadow: 0 0 0px 1000px #f4f4f4 inset;
+}
+
+.remember-me {
+    margin-bottom: 15%;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Chrome */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin:0;
+}
+
+/* Opéra*/
+input::-o-inner-spin-button,
+input::-o-outer-spin-button {
+    -o-appearance: none;
+    margin:0
+}
+
+.centerit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+
+}
+
+/* Ajoutez ces styles CSS pour gérer les lignes impaires */
+.transfertr:nth-child(odd) {
+    background-color: thistle; /* Couleur de fond pour les lignes impaires */
+}
+
+#negatebackground {
+    background-color: rebeccapurple;
+    color: white;
+}
+
+#negatebackground th{
+    padding: 10px;
+    white-space: nowrap;
+    width: 33%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table {
+    width: 60%;
+    margin-top: 2%;
+    border: 1px solid rebeccapurple;
+    border-collapse: collapse;
+}
+
+.transfertr {
+    text-align: center;
+    width: 100%;
+}
+
+.transfertr td {
+    padding: 10px;
+    white-space: nowrap;
+    width: 33%;
+    text-align: center;
+    vertical-align: middle;
+}

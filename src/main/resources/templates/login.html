@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>Login page</title>
+</head>
+<body>
+<div class="cadre">
+    <h1 class="logo">Pay My Buddy</h1>
+    <p th:if="${loginError}" class="error">Wrong user or password</p>
+    <form th:action="@{/login}" method="post" class="login-form">
+        <div class="login-email">
+            <input type="text" id="username" name="username" autofocus="autofocus" placeholder="Email"
+                   class="login-field"/>
+        </div>
+
+        <div class="login-password">
+            <input type="password" id="password" name="password" placeholder="Password" class="login-field"/>
+        </div>
+
+        <div class="remember-me">
+            <input type="checkbox" id="rememberMe" name="remember_me">
+            <label for="rememberMe">Remember Me</label>
+        </div>
+
+        <input type="submit" value="Log in" class="button"   />
+    </form>
+</div>
+</body>
+</html>

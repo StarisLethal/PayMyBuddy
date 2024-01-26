@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>Pay My Buddy</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/transfer" >Transfer</a>
+    <a href="#">Profile</a>
+    <a href="/contact" class="active">Contact</a>
+    <a href="javascript:void(0)" onclick="logout()">Log off</a>
+</div>
+
+<script type="text/javascript">
+    function logout() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/logout', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="_csrf"]').getAttribute('content'));
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                window.location.href = '/';
+            }
+        };
+        xhr.send();
+    }
+</script>
+
+<div class="centerit">
+
+    <form action="/addFriend" method="post">
+
+        <input type="hidden" name="personMail" th:value="${person.getEmail()}"/>
+
+        <input type="text" name="friendMail" id="friendMail" placeholder="Friend Email" required/>
+
+        <button type="submit" class="button">Add</button>
+
+    </form>
+</div>
+
+<div class="centerit">
+    <table>
+        <thead>
+        <tr class="transfertr" id="negatebackground">
+            <th>Connections</th>
+            <th>E mail</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr class="transfertr" th:each="friend : ${person.listOfFriend}">
+            <td th:text="${friend.firstName + ' ' + friend.lastName}"></td>
+            <td th:text="${friend.getEmail()}"></td>
+            <td></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

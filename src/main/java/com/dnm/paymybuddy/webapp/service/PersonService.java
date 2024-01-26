@@ -32,6 +32,10 @@ public class PersonService {
 
     }
 
+    public Person getPersonByMail(String mail){
+        return personRepository.findById(mail).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
     @Transactional
     public void addFriend(String personEmail, String friendEmail){
 

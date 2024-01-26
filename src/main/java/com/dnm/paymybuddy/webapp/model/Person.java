@@ -11,17 +11,22 @@ import java.util.List;
 public class Person {
 
     @Id
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false)
     private String password;
     @ManyToMany
     @JoinTable(
-            name = "person_friends",
+            name = "listoffriend",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "email"),
             inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "email")
     )
     private List<Person> listOfFriend;
+    @Column(nullable = false)
     private String role;
     public Person() {
 

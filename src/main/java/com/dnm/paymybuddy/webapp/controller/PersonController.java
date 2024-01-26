@@ -5,15 +5,16 @@ import com.dnm.paymybuddy.webapp.model.Person;
 import com.dnm.paymybuddy.webapp.service.PersonService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.security.Principal;
 
-@RestController
+@Controller
 public class PersonController {
 
     private static final Logger logger = LogManager.getLogger(PersonController.class);
@@ -26,19 +27,41 @@ public class PersonController {
     }
 
     @GetMapping("/")
-    public String home(Model model){
-        model.addAttribute("home");
+    public String home(Model model, Principal principal){
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+        model.addAttribute("person", person);
         return "home";
     }
 
-    @GetMapping("/friends")
-    public String listFriends(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login";
+    }
 
-        List<Person> friends = personService.getFriendList(email);
-        model.addAttribute("friends", friends);
-        return "friends";
+    @PostMapping("/test-request")
+    public ResponseEntity<String> testPostRequest() {
+        return ResponseEntity.ok("POST request successful");
+    }
+
+/*    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String exception(final Throwable throwable, final Model model) {
+        logger.error("Exception during execution of SpringSecurity application", throwable);
+        String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
+        model.addAttribute("errorMessage", errorMessage);
+        return "error";
+    }*/
+
+    @GetMapping("/contact")
+    public String listFriends(Model model, Principal principal) {
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+
+        model.addAttribute("person", person);
+        return "contact";
     }
 
     @GetMapping("/persons")
@@ -52,4 +75,18 @@ public class PersonController {
         }
     }
 
+    @PostMapping("/addFriend")
+    public String addFriend ( Model model,
+            @RequestParam("personMail") String personMail,
+            @RequestParam("friendMail") String friendMail){
+        try {
+            personService.addFriend(personMail, friendMail);
+            return "transfer";
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
+            System.out.println(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+            return "test";
+        }
+    }
 }
