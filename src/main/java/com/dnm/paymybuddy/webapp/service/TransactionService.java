@@ -17,7 +17,8 @@ public class TransactionService {
     @Autowired
     private final TransactionRepository transactionRepository;
 
-    public Iterable<Transaction> listById(Account account){return transactionRepository.findSourceById(account);}
+    public Iterable<Transaction> listSourceById(Account account){return transactionRepository.findSourceById(account);}
+    public Iterable<Transaction> listRecipientById(Account account){return transactionRepository.findRecipientById(account);}
 
     @Transactional
     public void payment(String accountSourceMail, String accountRecipientMail, Float amount, String description){
@@ -25,10 +26,7 @@ public class TransactionService {
         Account sourceAccount = accountService.getAccountByMail(accountSourceMail)/*.orElseThrow(() -> new IllegalArgumentException("Compte débiteur non trouvé"))*/;
         Account recipientAccount = accountService.getAccountByMail(accountRecipientMail)/*.orElseThrow(() -> new IllegalArgumentException("Compte crediteur non trouvé"))*/;
 
-        Integer accountSourceId = sourceAccount.getAccountId();
-        Integer accountRecipientId = recipientAccount.getAccountId();
-
-        if(accountSourceId.equals(accountRecipientId)){
+        if(sourceAccount.getAccountId().equals(recipientAccount.getAccountId())){
             throw new IllegalArgumentException("Vous ne pouvez pas vous envoyer de l'argent");
         }
 

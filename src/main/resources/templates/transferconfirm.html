@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="shortcut icon" href="#" />
-    <link href="/style.css" rel="stylesheet" type="text/css">
-    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <title>Pay My Buddy</title>
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -17,14 +16,13 @@
     <div class="alignright">
         <p class="welcome">Welcome, <span th:text="${person.firstName}"></span> <span
                 th:text="${person.lastName}"></span></p>
-        <a class="active" href="/">Home</a>
-        <a href="/transfer">Transfer</a>
+        <a href="/">Home</a>
+        <a class="active" href="/transfer">Transfer</a>
         <a href="#">Profile</a>
         <a href="/contact">Contact</a>
         <a href="javascript:void(0)" onclick="logout()">Log off</a>
     </div>
 </div>
-
 
 <script type="text/javascript">
     function logout() {
@@ -41,35 +39,19 @@
     }
 </script>
 
-<div class="centerit">
-    <table>
-        <thead>
-        <tr class="transfertr">
-            <th>Balance :</th>
-            <th><span th:text="${finances}"></span> €</th>
-        </tr>
-        </thead>
-    </table>
-</div>
+<h1>Confirm transfer?</h1>
 
-<div class="centerit">
-    <table>
-        <thead>
-        <tr class="transfertr" id="negatebackground">
-            <th>Description</th>
-            <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
+<p>For : <span th:text="${accountRecipientMail}"></span></p>
+<p>Amount : <span th:text="${amount}"></span></p>
+<p>Description : <span th:text="${description}"></span></p>
 
-        <tr class="transfertr" th:each="transaction : ${transaction}">
-            <td th:text="${transaction.description}"></td>
-            <td th:text="${transaction.amount}"></td>
-        </tr>
-
-        </tbody>
-    </table>
-</div>
+<form th:action="@{/transferconfirm}" method="post">
+    <input type="hidden" name="accountSourceMail" th:value="${accountSourceMail}" />
+    <input type="hidden" name="accountRecipientMail" th:value="${accountRecipientMail}" />
+    <input type="hidden" name="amount" th:value="${amount}" />
+    <input type="hidden" name="description" th:value="${description}" />
+    <button type="submit" class="button">Confirm</button>
+</form>
 
 </body>
 </html>

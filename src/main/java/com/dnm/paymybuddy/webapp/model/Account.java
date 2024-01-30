@@ -8,6 +8,7 @@ import lombok.Data;
 public class Account {
 
     @Id
+    @Column(name = "account_id")
     private Integer accountId;
     @Column(nullable = false)
     private Float finances;

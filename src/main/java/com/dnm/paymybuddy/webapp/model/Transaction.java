@@ -8,12 +8,13 @@ import lombok.Data;
 public class Transaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transactionId;
     @ManyToOne
-    @JoinColumn(name = "accountSourceId", referencedColumnName = "accountId")
+    @JoinColumn(name = "accountSourceId", referencedColumnName = "account_id")
     private Account accountSource;
     @ManyToOne
-    @JoinColumn(name = "accountRecipientId", referencedColumnName = "accountId")
+    @JoinColumn(name = "accountRecipientId", referencedColumnName = "account_id")
     private Account accountRecipient;
     @Column(nullable = false)
     private float amount;

@@ -26,15 +26,6 @@ public class PersonController {
 
     }
 
-    @GetMapping("/")
-    public String home(Model model, Principal principal){
-
-        String userMail = principal.getName();
-        Person person = personService.getPersonByMail(userMail);
-        model.addAttribute("person", person);
-        return "home";
-    }
-
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
@@ -46,15 +37,6 @@ public class PersonController {
         return ResponseEntity.ok("POST request successful");
     }
 
-/*    @ExceptionHandler(Throwable.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String exception(final Throwable throwable, final Model model) {
-        logger.error("Exception during execution of SpringSecurity application", throwable);
-        String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
-        model.addAttribute("errorMessage", errorMessage);
-        return "error";
-    }*/
-
     @GetMapping("/contact")
     public String listFriends(Model model, Principal principal) {
 
@@ -65,24 +47,34 @@ public class PersonController {
         return "contact";
     }
 
-    @GetMapping("/persons")
-    public Iterable<Person> getPersons() {
-        try {
-            logger.info("GET request to /persons successful");
-            return personService.list();
-        } catch (Exception e) {
-            logger.error("Error processing GET request to /persons", e);
-            return null;
-        }
+    @PostMapping("/addFriend")
+    public String addFriend (Model model, Principal principal,
+                             @RequestParam("personMail") String personMail,
+                             @RequestParam("friendMail") String friendMail){
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+
+        model.addAttribute("person", person);
+
+        model.addAttribute("personMail", personMail);
+        model.addAttribute("friendMail", friendMail);
+        return "addConfirm";
     }
 
-    @PostMapping("/addFriend")
-    public String addFriend ( Model model,
+    @PostMapping("/addConfirm")
+    public String addConfirm ( Model model, Principal principal,
             @RequestParam("personMail") String personMail,
             @RequestParam("friendMail") String friendMail){
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+
+        model.addAttribute("person", person);
+        model.addAttribute("friendMail", friendMail);
         try {
             personService.addFriend(personMail, friendMail);
-            return "contact";
+            return "addconfirmed";
         } catch (Exception e) {
             String errorMessage = e.getMessage();
             System.out.println(errorMessage);

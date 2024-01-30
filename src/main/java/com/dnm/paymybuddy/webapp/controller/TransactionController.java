@@ -27,33 +27,81 @@ public class TransactionController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/transfer")
+    @GetMapping("/")
     public String home(Model model, Principal principal) {
 
         String userMail = principal.getName();
         Person person = personService.getPersonByMail(userMail);
         Account account = accountService.getAccountId(userMail);
-        Iterable<Transaction> transaction = transactionService.listById(account);
+        Iterable<Transaction> transaction = transactionService.listRecipientById(account);
+        Float finances = account.getFinances();
+
+        model.addAttribute("person", person);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("finances", finances);
+
+        return "home";
+
+    }
+
+    @GetMapping("/transfer")
+    public String transfer(Model model, Principal principal) {
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+        Account account = accountService.getAccountId(userMail);
+        Iterable<Transaction> transaction = transactionService.listSourceById(account);
         model.addAttribute("person", person);
         model.addAttribute("transaction", transaction);
         return "transfer";
     }
 
     @PostMapping("/payment")
-    public String processPayment(Model model,
+    public String processPayment(Model model, Principal principal,
+                                 @RequestParam("accountSourceMail") String accountSourceMail,
+                                 @RequestParam("accountRecipientMail") String accountRecipientMail,
+                                 @RequestParam("amount") Float amount,
+                                 @RequestParam("description") String description){
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+
+        model.addAttribute("person", person);
+
+        model.addAttribute("accountSourceMail", accountSourceMail);
+        model.addAttribute("accountRecipientMail", accountRecipientMail);
+        model.addAttribute("amount", amount);
+        model.addAttribute("description", description);
+
+        return "transferconfirm";
+    }
+
+    @PostMapping("/transferconfirm")
+    public String confirmPayment(Model model, Principal principal,
                                  @RequestParam("accountSourceMail") String accountSourceMail,
                                  @RequestParam("accountRecipientMail") String accountRecipientMail,
                                  @RequestParam("amount") Float amount,
                                  @RequestParam("description") String description) {
 
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+
+        model.addAttribute("person", person);
+
         try {
             transactionService.payment(accountSourceMail, accountRecipientMail, amount, description);
-            return "transfer";
+
+            model.addAttribute("accountSourceMail", accountSourceMail);
+            model.addAttribute("accountRecipientMail", accountRecipientMail);
+            model.addAttribute("amount", amount);
+            model.addAttribute("description", description);
+
+            return "transferconfirmed";
         } catch (Exception e) {
             String errorMessage = e.getMessage();
             System.out.println(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
-            return "test"; // Redirection vers une page d'erreur personnalisée
+            return "test";
         }
     }
 }

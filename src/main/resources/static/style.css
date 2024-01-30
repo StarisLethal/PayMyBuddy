@@ -27,26 +27,58 @@ body {
     margin-bottom: 25%;
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.header {
 
+    display: flex;
+    justify-content: space-between; /* Aligner les éléments à gauche et à droite */
+    align-items: center;
     overflow: hidden;
     margin-bottom: 5%;
 }
 
-.navbar a {
+.alignleft {
+    display: flex;
+    justify-content: flex-start;
+    width: 20%;
+}
+
+.logoin {
+    background: rebeccapurple linear-gradient(rebeccapurple, #875692);
+    border-radius: 5px;
+    font-size: large;
+    color: #fff0f5;
+    padding: 10px 10px;
+    margin: 0 0 0 1%;
+}
+
+
+
+.alignright {
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.welcome {
+
+    margin: 0;
+    white-space: nowrap;
+    align-items: center;
+    text-align: center;
+    padding: 14px 16px;
+}
+
+.alignright a {
     background-color: #663399;
-    float: left;
-    display: block;
+    align-items: center;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    white-space: nowrap;
 }
 
-.navbar a:hover {
+.alignright a:hover {
     background-color: #333;
 }
 
@@ -62,6 +94,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    text-decoration: none;
 }
 
 .button:hover {

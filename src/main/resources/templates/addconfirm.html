@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="shortcut icon" href="#" />
-    <link href="/style.css" rel="stylesheet" type="text/css">
-    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <title>Pay My Buddy</title>
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -17,14 +16,13 @@
     <div class="alignright">
         <p class="welcome">Welcome, <span th:text="${person.firstName}"></span> <span
                 th:text="${person.lastName}"></span></p>
-        <a class="active" href="/">Home</a>
+        <a href="/">Home</a>
         <a href="/transfer">Transfer</a>
         <a href="#">Profile</a>
-        <a href="/contact">Contact</a>
+        <a class="active" href="/contact">Contact</a>
         <a href="javascript:void(0)" onclick="logout()">Log off</a>
     </div>
 </div>
-
 
 <script type="text/javascript">
     function logout() {
@@ -41,34 +39,25 @@
     }
 </script>
 
+<h1>Confirm add Friend?</h1>
+
 <div class="centerit">
-    <table>
-        <thead>
-        <tr class="transfertr">
-            <th>Balance :</th>
-            <th><span th:text="${finances}"></span> €</th>
-        </tr>
-        </thead>
-    </table>
+
+    <p> Are you sure you want add <span th:text="${friendMail}"></span></p>
+
 </div>
 
 <div class="centerit">
-    <table>
-        <thead>
-        <tr class="transfertr" id="negatebackground">
-            <th>Description</th>
-            <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        <tr class="transfertr" th:each="transaction : ${transaction}">
-            <td th:text="${transaction.description}"></td>
-            <td th:text="${transaction.amount}"></td>
-        </tr>
+    <form method="post" th:action="@{/addConfirm}" >
 
-        </tbody>
-    </table>
+        <input type="hidden" name="personMail" th:value="${personMail}"/>
+
+        <input type="hidden" name="friendMail" th:value="${friendMail}"/>
+
+        <button type="submit" class="button">Add</button>
+
+    </form>
 </div>
 
 </body>

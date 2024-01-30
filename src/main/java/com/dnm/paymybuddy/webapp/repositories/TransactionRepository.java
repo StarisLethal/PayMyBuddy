@@ -16,5 +16,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     @Query("SELECT t FROM Transaction t WHERE t.accountSource = :account")
     Iterable<Transaction> findSourceById(Account account);
+
+    @Query("SELECT t FROM Transaction t WHERE t.accountRecipient = :account")
+    Iterable<Transaction> findRecipientById(Account account);
 }
 
