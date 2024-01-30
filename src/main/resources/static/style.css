@@ -176,13 +176,6 @@ input::-webkit-outer-spin-button {
     margin:0;
 }
 
-/* Opéra*/
-input::-o-inner-spin-button,
-input::-o-outer-spin-button {
-    -o-appearance: none;
-    margin:0
-}
-
 .centerit {
     display: flex;
     flex-direction: column;
@@ -193,9 +186,9 @@ input::-o-outer-spin-button {
 
 }
 
-/* Ajoutez ces styles CSS pour gérer les lignes impaires */
+
 .transfertr:nth-child(odd) {
-    background-color: thistle; /* Couleur de fond pour les lignes impaires */
+    background-color: thistle;
 }
 
 #negatebackground {
@@ -230,3 +223,5 @@ table {
     text-align: center;
     vertical-align: middle;
 }
+
+
