@@ -5,6 +5,7 @@ import com.dnm.paymybuddy.webapp.model.Person;
 import com.dnm.paymybuddy.webapp.repositories.PersonRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 public class PersonService {
 
+    @Autowired
     private final PersonRepository personRepository;
 
 
@@ -42,21 +44,24 @@ public class PersonService {
         Person person = personRepository.findById(personEmail).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         Person friend = personRepository.findById(friendEmail).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-        person.getListOfFriend().add(friend);
+        List<Person> listOfFriends = person.getListOfFriend();
+
+        listOfFriends.add(friend);
         personRepository.save(person);
 
     }
 
     @Transactional
     public void deleteFriend(String personEmail, String friendEmail){
-
         Person person = personRepository.findById(personEmail).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        List<Person> listOfFriends = person.getListOfFriend();
+
         Person friend = person.getListOfFriend().stream()
                 .filter(f -> f.getEmail().equals(friendEmail))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new RuntimeException("User not Found"));
 
-        person.getListOfFriend().remove(friend);
+        listOfFriends.remove(friend);
         personRepository.save(person);
 
     }

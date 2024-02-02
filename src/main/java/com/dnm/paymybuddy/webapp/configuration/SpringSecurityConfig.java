@@ -24,7 +24,6 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/style.css").permitAll()
                         .requestMatchers("/**").hasRole("USER")
-                        .requestMatchers("/test-request").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin

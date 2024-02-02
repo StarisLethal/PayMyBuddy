@@ -5,7 +5,6 @@ import com.dnm.paymybuddy.webapp.model.Person;
 import com.dnm.paymybuddy.webapp.service.PersonService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +28,6 @@ public class PersonController {
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
-    }
-
-    @PostMapping("/testrequest")
-    public ResponseEntity<String> testPostRequest() {
-        System.out.println("TERST///////////§§§§§§");
-        return ResponseEntity.ok("POST request successful");
     }
 
     @GetMapping("/contact")

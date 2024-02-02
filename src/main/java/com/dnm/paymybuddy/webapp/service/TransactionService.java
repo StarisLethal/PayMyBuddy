@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 public class TransactionService {
 
     @Autowired
+    private final BankService bankService;
+    @Autowired
     private final AccountService accountService;
     @Autowired
     private final TransactionRepository transactionRepository;
@@ -21,26 +23,26 @@ public class TransactionService {
     public Iterable<Transaction> listRecipientById(Account account){return transactionRepository.findRecipientById(account);}
 
     @Transactional
-    public void payment(String accountSourceMail, String accountRecipientMail, Float amount, String description){
-
+    public void payment(String accountSourceMail, String accountRecipientMail, float amount, String description){
+        float taxAmount = amount * 0.05F;
         Account sourceAccount = accountService.getAccountByMail(accountSourceMail)/*.orElseThrow(() -> new IllegalArgumentException("Compte débiteur non trouvé"))*/;
         Account recipientAccount = accountService.getAccountByMail(accountRecipientMail)/*.orElseThrow(() -> new IllegalArgumentException("Compte crediteur non trouvé"))*/;
 
-        if(sourceAccount.getAccountId().equals(recipientAccount.getAccountId())){
-            throw new IllegalArgumentException("Vous ne pouvez pas vous envoyer de l'argent");
+        if(sourceAccount.getFinances()<(amount+taxAmount)){
+            throw new IllegalArgumentException("Your balance is too low for that");
         }
 
-
-        if(sourceAccount.getFinances()<(amount+(amount*0.05))){
-            throw new IllegalArgumentException("Vous ne disposez pas de suffisament de fond");
-        }
-
+        sourceAccount.setFinances(sourceAccount.getFinances() - taxAmount);
         sourceAccount.setFinances(sourceAccount.getFinances() - amount);
         accountService.save(sourceAccount);
+
+        /*Recuperation de la taxe de transaction*/
+        bankService.taxSave(taxAmount);
 
         recipientAccount.setFinances(recipientAccount.getFinances() + amount);
         accountService.save(recipientAccount);
 
+        /*Sauvegarde de la transaction*/
         Transaction transaction = new Transaction();
 
         transaction.setAccountSource(sourceAccount);

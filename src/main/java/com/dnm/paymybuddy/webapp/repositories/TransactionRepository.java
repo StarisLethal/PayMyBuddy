@@ -9,15 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-/*
-    @Query("SELECT t FROM Transaction t WHERE t.accountSource.accountId = :accountId OR t.accountRecipient.accountId = :accountId")
-    Iterable<Transaction> findAllByAccountId(@Param("accountId") Integer accountId);
-*/
-
     @Query("SELECT t FROM Transaction t WHERE t.accountSource = :account")
     Iterable<Transaction> findSourceById(Account account);
 
     @Query("SELECT t FROM Transaction t WHERE t.accountRecipient = :account")
     Iterable<Transaction> findRecipientById(Account account);
+
+
 }
 

@@ -11,9 +11,11 @@ public interface AccountRepository extends CrudRepository<Account, Integer>{
     @Query("SELECT a.finances FROM Account a WHERE a.accountId = :accountId")
     float findFinanceById(Integer accountId);
 
-    @Query("SELECT a FROM Account a WHERE a.person.email = :mail")
-    Account getAccountId(String mail);
+    @Query("SELECT a FROM Account a WHERE a.accountId = :accountId")
+    Account getAccountId(Integer accountId);
 
     @Query("SELECT a FROM Account a WHERE a.person.email = :mail")
-    Account getAccountIdByMail(String mail);
+    Account getAccountByMail(String mail);
+
 }
+

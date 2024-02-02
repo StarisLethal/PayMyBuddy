@@ -45,6 +45,31 @@
     <table>
         <thead>
         <tr class="transfertr">
+            <th>Bank Balance :</th>
+            <th><span th:text="${balance}"></span> €</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div class="centerit">
+
+    <h4>Transfer to Bank </h4>
+
+    <form method="post" th:action="@{/transferToBank}">
+
+        <input type="hidden" name="account" th:value="${account}"/>
+
+        <input type="number" step="0.01" name="transferToBankAmount" id="transferToBankAmount" placeholder="0 €" required/>
+
+        <button type="submit" class="button">Transfer</button>
+
+    </form>
+
+<div class="centerit">
+    <table>
+        <thead>
+        <tr class="transfertr">
             <th>Balance :</th>
             <th><span th:text="${finances}"></span> €</th>
         </tr>

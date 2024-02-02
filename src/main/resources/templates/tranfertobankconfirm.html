@@ -39,17 +39,15 @@
     }
 </script>
 
-<h1>Confirm transfer?</h1>
+<h1>Confirm transfer to Bank?</h1>
 
-<p>For : <span th:text="${accountRecipientMail}"></span></p>
-<p>Amount : <span th:text="${amount}"></span></p>
-<p>Description : <span th:text="${description}"></span></p>
 
-<form th:action="@{/transferConfirm}" method="post">
-    <input type="hidden" name="accountSourceMail" th:value="${accountSourceMail}" />
-    <input type="hidden" name="accountRecipientMail" th:value="${accountRecipientMail}" />
-    <input type="hidden" name="amount" th:value="${amount}" />
-    <input type="hidden" name="description" th:value="${description}" />
+<p>Amount : <span th:text="${transferToBankAmount}"></span> €</p>
+
+
+<form th:action="@{/tranferToBankConfirm}" method="post">
+    <input type="hidden" name="account" th:value="${account}" />
+    <input type="hidden" name="transferToBankAmount" th:value="${transferToBankAmount}" />
     <button type="submit" class="button">Confirm</button>
 </form>
 

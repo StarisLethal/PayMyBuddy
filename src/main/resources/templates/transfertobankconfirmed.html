@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="shortcut icon" href="#" />
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <title>Pay My Buddy</title>
+
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+
+<div class="header">
+  <div class="alignleft"><p class="logoin">Pay My Buddy</p></div>
+
+  <div class="alignright">
+    <p class="welcome">Welcome, <span th:text="${person.firstName}"></span> <span
+            th:text="${person.lastName}"></span></p>
+    <a href="/">Home</a>
+    <a class="active" href="/transfer">Transfer</a>
+    <a href="#">Profile</a>
+    <a href="/contact">Contact</a>
+    <a href="javascript:void(0)" onclick="logout()">Log off</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function logout() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/logout', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="_csrf"]').getAttribute('content'));
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        window.location.href = '/';
+      }
+    };
+    xhr.send();
+  }
+</script>
+
+<div>
+  <p>Transfer of <span th:text="${transferToBankAmount}"></span> € to Bank is confirm</p>
+  <a href="/" class="button">Back</a>
+</div>
+
+</body>
+</html>

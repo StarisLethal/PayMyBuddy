@@ -2,12 +2,19 @@ package com.dnm.paymybuddy.webapp.model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
+@ToString(exclude = "listOfFriend")
 public class Person {
 
     @Id
@@ -25,10 +32,7 @@ public class Person {
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "email"),
             inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "email")
     )
-    private List<Person> listOfFriend;
+    private List<Person> listOfFriend = new ArrayList<>();
     @Column(nullable = false)
     private String role;
-    public Person() {
-
-    }
 }
