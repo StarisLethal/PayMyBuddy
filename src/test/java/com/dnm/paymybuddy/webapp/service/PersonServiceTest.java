@@ -44,6 +44,20 @@ class PersonServiceTest {
     }
 
     @Test
+    public void testGetPersonByMail() {
+        String mail = "test@example.com";
+        Person person = new Person();
+        person.setEmail(mail);
+
+        when(personRepository.findById(mail)).thenReturn(Optional.of(person));
+
+        Person result = personService.getPersonByMail(mail);
+
+        verify(personRepository).findById(mail);
+        assertEquals(mail, result.getEmail());
+    }
+
+    @Test
     public void testGet() {
         String email = "test@example.com";
         Person person = new Person();

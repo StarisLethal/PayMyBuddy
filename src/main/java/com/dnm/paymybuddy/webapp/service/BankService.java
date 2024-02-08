@@ -28,8 +28,22 @@ public class BankService {
     }
 
     @Transactional
+    public Bank bankToAccount(Account account,  float transferToAccountAmount){
+        Bank bank = account.getBank();
+        if(bank.getBalance()< transferToAccountAmount){
+            throw new IllegalArgumentException("Your balance is too low for that");
+        }
+        bank.setBalance(bank.getBalance() - transferToAccountAmount);
+        account.setFinances(account.getFinances() + transferToAccountAmount);
+        return save(bank);
+    }
+
+    @Transactional
     public Bank transferToBank(Account account,  float transferToBankAmount){
         Bank bank = account.getBank();
+        if(account.getFinances()< transferToBankAmount){
+            throw new IllegalArgumentException("Your balance is too low for that");
+        }
         account.setFinances(account.getFinances() - transferToBankAmount);
         bank.setBalance(bank.getBalance() + transferToBankAmount);
         return save(bank);

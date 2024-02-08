@@ -17,9 +17,9 @@
         <p class="welcome">Welcome, <span th:text="${person.firstName}"></span> <span
                 th:text="${person.lastName}"></span></p>
         <a href="/">Home</a>
-        <a href="/transfer">Transfer</a>
+        <a class="active" href="/transfer">Transfer</a>
         <a href="#">Profile</a>
-        <a class="active" href="/contact">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="javascript:void(0)" onclick="logout()">Log off</a>
     </div>
 </div>
@@ -39,40 +39,10 @@
     }
 </script>
 
-<div class="centerit">
-
-    <form method="post" th:action="@{/addFriend}">
-
-        <input type="hidden" name="personMail" th:value="${person.getEmail()}"/>
-
-        <input type="email" name="friendMail" id="friendMail" placeholder="Friend Email" required/>
-
-        <button type="submit" class="button">Add</button>
-
-    </form>
+<div>
+    <p>Transfer of <span th:text="${transferToAccountAmount}"></span> € to Account is confirm</p>
+    <a href="/" class="button">Back</a>
 </div>
-
-<div class="centerit">
-    <table>
-        <thead>
-        <tr class="transfertr" id="negatebackground">
-            <th>Connections</th>
-            <th>E mail</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr class="transfertr" th:object="${person}" th:each="friend : ${person.listOfFriend}">
-            <td th:text="${friend.firstName + ' ' + friend.lastName}"></td>
-            <td th:text="${friend.getEmail()}"></td>
-            <td></td>
-        </tr>
-
-        </tbody>
-    </table>
-</div>
-
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="/favicon-32x32.png" />
     <link rel="stylesheet" type="text/css" href="/style.css">
     <title>Pay My Buddy</title>
 
@@ -40,7 +40,7 @@
 </script>
 
 <div>
-    <p>Transfer of <span th:text="${amout}"></span> to <span th:text="${accountRecipientMail}"></span> is confirm</p>
+    <p>Transfer of <span th:text="${amount}"></span> € to <span th:text="${accountRecipientMail}"></span> is confirm</p>
     <a href="/transfer" class="button">Back</a>
 </div>
 

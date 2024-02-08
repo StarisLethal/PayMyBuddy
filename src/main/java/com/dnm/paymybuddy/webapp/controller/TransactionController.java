@@ -94,6 +94,7 @@ public class TransactionController {
 
         model.addAttribute("person", person);
 
+
         try {
             transactionService.payment(accountSourceMail, accountRecipientMail, amount, description);
 

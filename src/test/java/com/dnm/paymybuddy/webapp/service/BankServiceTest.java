@@ -76,6 +76,27 @@ class BankServiceTest {
     }
 
     @Test
+    public void testBankToAccount() {
+        Account account = new Account();
+        Bank bank = new Bank();
+        bank.setBalance(404.0F);
+        account.setBank(bank);
+        account.setFinances(96.0F);
+        float transferToAccountAmount = 42.0F;
+        float expectedBankBalance = bank.getBalance() - transferToAccountAmount;
+        float expectedAccountFinances = account.getFinances() + transferToAccountAmount;
+
+        when(bankRepository.save(bank)).thenReturn(bank);
+
+        Bank result = bankService.bankToAccount(account, transferToAccountAmount);
+
+        verify(bankRepository).save(bank);
+        assertEquals(expectedBankBalance, bank.getBalance());
+        assertEquals(expectedAccountFinances, account.getFinances());
+        assertEquals(bank, result);
+    }
+
+    @Test
     public void testTaxSave() {
         float taxAmount = 10.0F;
         float balanceTest = 100.00F;

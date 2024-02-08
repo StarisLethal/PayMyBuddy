@@ -47,7 +47,6 @@ public class BankController {
 
     @PostMapping("/tranferToBankConfirm")
     public String transferToBankConfirm(Model model, Principal principal,
-
                                         @RequestParam float transferToBankAmount) {
 
         String userMail = principal.getName();
@@ -62,6 +61,47 @@ public class BankController {
             bankService.transferToBank(account, transferToBankAmount);
 
             return "transfertobankconfirmed";
+
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
+            System.out.println(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+            return "test";
+        }
+    }
+
+    @PostMapping("/bankToAccount")
+    public String bankToAccount(Model model, Principal principal,
+                                 @RequestParam float transferToAccountAmount) {
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+        Account account = accountService.getAccountByMail(userMail);
+        model.addAttribute("person", person);
+
+        model.addAttribute("account", account);
+        model.addAttribute("transferToAccountAmount", transferToAccountAmount);
+
+        return "transfertoaccountconfirm";
+
+    }
+
+    @PostMapping("/bankToAccountConfirm")
+    public String bankToAccountConfirm(Model model, Principal principal,
+                                       @RequestParam float transferToAccountAmount) {
+
+        String userMail = principal.getName();
+        Person person = personService.getPersonByMail(userMail);
+        Account account = accountService.getAccountByMail(userMail);
+        model.addAttribute("person", person);
+
+        model.addAttribute("account", account);
+        model.addAttribute("transferToAccountAmount", transferToAccountAmount);
+
+        try {
+            bankService.bankToAccount(account, transferToAccountAmount);
+
+            return "transfertoaccountconfirmed";
 
         } catch (Exception e) {
             String errorMessage = e.getMessage();

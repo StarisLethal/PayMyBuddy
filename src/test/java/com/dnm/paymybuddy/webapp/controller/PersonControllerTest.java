@@ -33,9 +33,11 @@ class PersonControllerTest {
     }
 
     @Test
-    public void testShowLoginPage() {
-        String result = personController.showLoginPage();
-        assertEquals("login", result);
+    public void testLoginWithoutError() {
+        String viewName = personController.login(null, model);
+
+        verify(model, never()).addAttribute(eq("loginError"), anyString());
+        assertEquals("login", viewName);
     }
 
     @Test
@@ -75,7 +77,6 @@ class PersonControllerTest {
         String result = personController.addConfirm(model, principal, "person@example.com", "friend@example.com");
 
         verify(model).addAttribute("friendMail", "friend@example.com");
-
         verify(personService).addFriend("person@example.com", "friend@example.com");
 
         assertEquals("addconfirmed", result);

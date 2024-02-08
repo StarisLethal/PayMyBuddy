@@ -29,7 +29,7 @@ public class PersonService {
 
     public List<Person> getFriendList(String email){
 
-        Person person = personRepository.findById(email).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        Person person = personRepository.findById(email).orElseThrow(() -> new RuntimeException("User not found"));
         return person.getListOfFriend();
 
     }
@@ -41,8 +41,8 @@ public class PersonService {
     @Transactional
     public void addFriend(String personEmail, String friendEmail){
 
-        Person person = personRepository.findById(personEmail).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-        Person friend = personRepository.findById(friendEmail).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        Person person = personRepository.findById(personEmail).orElseThrow(() -> new RuntimeException("User not found"));
+        Person friend = personRepository.findById(friendEmail).orElseThrow(() -> new RuntimeException("User not found"));
 
         List<Person> listOfFriends = person.getListOfFriend();
 
@@ -53,7 +53,7 @@ public class PersonService {
 
     @Transactional
     public void deleteFriend(String personEmail, String friendEmail){
-        Person person = personRepository.findById(personEmail).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        Person person = personRepository.findById(personEmail).orElseThrow(() -> new RuntimeException("User not found"));
         List<Person> listOfFriends = person.getListOfFriend();
 
         Person friend = person.getListOfFriend().stream()

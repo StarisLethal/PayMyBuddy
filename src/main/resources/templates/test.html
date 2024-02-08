@@ -1,15 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="/favicon-32x32.png" />
+    <link href="/style.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erreur de transfert</title>
+    <title>Pay My Buddy</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
+
+<div class="header">
+    <div class="alignleft"><p class="logoin">Pay My Buddy</p></div>
+
+    <div class="alignright">
+        <p class="welcome">Welcome, <span th:text="${person.firstName}"></span> <span
+                th:text="${person.lastName}"></span></p>
+        <a href="/">Home</a>
+        <a href="/transfer">Transfer</a>
+        <a href="#">Profile</a>
+        <a href="/contact">Contact</a>
+        <a href="javascript:void(0)" onclick="logout()">Log off</a>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function logout() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/logout', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="_csrf"]').getAttribute('content'));
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                window.location.href = '/';
+            }
+        };
+        xhr.send();
+    }
+</script>
+
 <h1>Une erreur s'est produite lors du transfert</h1>
 <p>La raison de l'erreur est la suivante :</p>
 <p th:text="${errorMessage}"></p>
 <p>Veuillez réessayer plus tard ou contacter le support technique.</p>
+
 </body>
 </html>

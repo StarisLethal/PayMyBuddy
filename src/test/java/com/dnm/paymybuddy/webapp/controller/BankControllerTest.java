@@ -60,7 +60,7 @@ class BankControllerTest {
     }
 
     @Test
-    public void testTransferToBankConfirm_Success() {
+    public void testTransferToBankConfirm() {
         String userMail = "user@example.com";
         Person person = new Person();
         Account account = new Account();
@@ -76,5 +76,41 @@ class BankControllerTest {
         verify(model).addAttribute("transferToBankAmount", transferToBankAmount);
         verify(bankService).transferToBank(account, transferToBankAmount);
         assertEquals("transfertobankconfirmed", viewName);
+    }
+
+    @Test
+    public void testbankToAccount() {
+        String userMail = "user@example.com";
+        Person person = new Person();
+        Account account = new Account();
+        when(principal.getName()).thenReturn(userMail);
+        when(personService.getPersonByMail(userMail)).thenReturn(person);
+        when(accountService.getAccountByMail(userMail)).thenReturn(account);
+
+        String viewName = bankController.bankToAccount(model, principal, 100.0f);
+
+        verify(model).addAttribute("person", person);
+        verify(model).addAttribute("account", account);
+        verify(model).addAttribute("transferToAccountAmount", 100.0f);
+        assertEquals("transfertoaccountconfirm", viewName);
+    }
+
+    @Test
+    public void testbankToAccountConfirm() {
+        String userMail = "user@example.com";
+        Person person = new Person();
+        Account account = new Account();
+        float transferToAccountAmount = 100.0f;
+        when(principal.getName()).thenReturn(userMail);
+        when(personService.getPersonByMail(userMail)).thenReturn(person);
+        when(accountService.getAccountByMail(userMail)).thenReturn(account);
+
+        String viewName = bankController.bankToAccountConfirm(model, principal, transferToAccountAmount);
+
+        verify(model).addAttribute("person", person);
+        verify(model).addAttribute("account", account);
+        verify(model).addAttribute("transferToAccountAmount", transferToAccountAmount);
+        verify(bankService).bankToAccount(account, transferToAccountAmount);
+        assertEquals("transfertoaccountconfirmed", viewName);
     }
 }
